@@ -1,0 +1,74 @@
+{
+    "compilerOptions": {
+        /* Basic Options */
+        "target": "es2018" /* Specify ECMAScript target version. Permitted values are 'es3', 'es5', 'es6', 'es2015', 'es2016', 'es2017', 'es2018', 'es2019', 'es2020' or 'esnext'. */,
+        "module": "esnext" /* Specify module code generation: 'none', 'commonjs', 'amd', 'system', 'umd', 'es2015' or 'esnext'. */,
+        "lib": [
+            "es2015",
+            "es2016",
+            "es2017",
+            "es2018",
+            "dom"
+        ] /* Specify library file to be included in the compilation. */,
+        // "allowJs": true /* Allow javascript files to be compiled. */,
+        // "checkJs": true /* Report errors in .js files. */,
+        "jsx": "react" /* Specify JSX code generation: 'preserve', 'react', or 'react-native'. */,
+        "jsxFactory": "h" /* Specify the JSX factory function to use when targeting react JSX emit, e.g. 'React.createElement' or 'h'. Requires TypeScript version 2.1 or later. */,
+        "declaration": true /* Generates corresponding d.ts files. */,
+        "declarationDir": "dist" /* Specify output directory for generated declaration files. */,
+        // "declarationMap": true, /* Generates a sourcemap for each corresponding '.d.ts' file. */
+        "sourceMap": true /* Generates corresponding '.map' file. */,
+        // "outFile": "./", /* Concatenate and emit output to single file. */
+        "outDir": "dist" /* Redirect output structure to the directory. */,
+        // "rootDir": "./src" /* Specifies the root directory of input files. Use to control the output directory structure with --outDir. */,
+        // "composite": true /* Enables building for project references. */,
+        "removeComments": true /* Do not emit comments to output. */,
+        // "noEmit": true /* Do not emit output. */,
+        // "importHelpers": true /* Do not emit output. */,
+        // "downlevelIteration": true /* Provide full support for iterables in 'for-of', spread, and destructuring when targeting 'ES5' or 'ES3'. */,
+        // "isolatedModules": true /* Unconditionally emit imports for unresolved files. */,
+
+        /* Strict Type-Checking Options */
+        "strict": true /* Enable all strict type checking options. */,
+        "noImplicitAny": true /* Warn on expressions and declarations with an implied 'any' type. */,
+        "strictNullChecks": true /* Enable strict null checks. */,
+        "strictFunctionTypes": true /* Disable bivariant parameter checking for function types. */,
+        "strictBindCallApply": true /* Enable stricter checking of of the `bind`, `call`, and `apply` methods on functions.   */,
+        "strictPropertyInitialization": true /* Ensure non-undefined class properties are initialized in the constructor. */,
+        "noImplicitThis": true /* Raise error on 'this' expressions with an implied any type. */,
+        "alwaysStrict": true /* Parse in strict mode and emit 'use strict' for each source file. */,
+
+        /* Additional Checks */
+        "noUnusedLocals": true /* Report errors on unused locals.   */,
+        "noUnusedParameters": true /* Report errors on unused parameters. */,
+        // "noImplicitReturns": true /* Report error when not all code paths in function return a value. */,
+        "noFallthroughCasesInSwitch": true /* Report errors for fallthrough cases in switch statement. */,
+
+        /* Module Resolution Options */
+        "moduleResolution": "node" /* Specifies module resolution strategy: 'node' (Node) or 'classic' (TypeScript pre 1.6). */,
+        "baseUrl": "." /* Base directory to resolve non-relative module names. */,
+        "paths": {
+            "~*": ["./*"]
+        } /*Specify path mapping to be computed relative to baseUrl option. */,
+        // "rootDirs": ["./src"] /* Specify list of root directories to be used when resolving modules. */,
+        "typeRoots": [
+            "node_modules/@types"
+        ] /* Specify list of directories for type definition files to be included. */,
+        // "types": [] /* Type declaration files to be included in compilation. */,
+        "allowSyntheticDefaultImports": true /* Allow default imports from modules with no default export. This does not affect code emit, just typechecking. */,
+        "esModuleInterop": true /* Emit '__importStar' and '__importDefault' helpers for runtime babel ecosystem compatibility and enable '--allowSyntheticDefaultImports' for typesystem compatibility. */,
+        "preserveSymlinks": true /* Do not resolve symlinks to their real path; treat a symlinked file like a real one. */
+
+        /* Source Map Options */
+        // "sourceRoot": "" /* Specifies the location where debugger should locate TypeScript files instead of source locations. */,
+        // "mapRoot": "" /* Specifies the location where debugger should locate map files instead of generated locations. */,
+        // "inlineSourceMap": true /* Emit a single file with source maps instead of having a separate file. */,
+        // "inlineSources": true /* Emit the source alongside the sourcemaps within a single file; requires --inlineSourceMap to be set. */
+
+        /* Experimental Options */
+        // "experimentalDecorators": true /* Enables experimental support for ES7 decorators. */,
+        // "emitDecoratorMetadata": true /* Emit design-type metadata for decorated declarations in source. */
+    },
+    "exclude": ["node_modules"],
+    "include": ["src/**/*", "fx-ts"]
+}

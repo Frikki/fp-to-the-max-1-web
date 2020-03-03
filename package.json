@@ -1,0 +1,29 @@
+{
+    "name": "fp-to-the-max-1-web",
+    "version": "1.0.0",
+    "description": "Web implementation of the guess-a-number game from FP to the max.",
+    "license": "MIT",
+    "author": "Frederik Krautwald",
+    "main": "index.js",
+    "scripts": {
+        "start": "parcel src/index.html",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "devDependencies": {
+        "@typescript-eslint/eslint-plugin": "^2.21.0",
+        "@typescript-eslint/parser": "^2.21.0",
+        "eslint": "^6.8.0",
+        "eslint-config-prettier": "^6.10.0",
+        "eslint-plugin-prettier": "^3.1.2",
+        "eslint-plugin-react": "^7.18.3",
+        "parcel-bundler": "^1.12.4",
+        "prettier": "^1.19.1",
+        "typescript": "^3.8.2"
+    },
+    "browserslist": [
+        "last 1 Chrome versions"
+    ],
+    "dependencies": {
+        "fx-ts": "^1.0.1"
+    }
+}
