@@ -13,13 +13,22 @@ const init = () => op<Init>(c => c.init())
 type Print = { print(s: string): Resume<void> }
 const print = (s: string) => op<Print>(c => c.print(s))
 
-const println = (s: string) => print(`${s}\n`)
+type Println = { println(s: string): Resume<void> }
+const println = (s: string) => op<Println>(c => c.println(s))
+
+type DelayedPrint = { delayedPrint(s: string): Resume<void> }
+const delayedPrint = (s: string) => op<DelayedPrint>(c => c.delayedPrint(s))
 
 type Read = { read(): Resume<string> }
 const read = op<Read>(c => c.read())
 
 const ask = co(function*(prompt: string) {
     yield* print(prompt)
+    return yield* read
+})
+
+const askln = co(function*(prompt: string) {
+    yield* println(prompt)
     return yield* read
 })
 
@@ -47,8 +56,8 @@ const play = co(function*(name: string, min: number, max: number) {
     if (!Number.isInteger(guess)) {
         yield* println('You did not enter an integer!')
     } else {
-        if (checkAnswer(secret, guess)) yield* println(`You guessed right, ${name}!`)
-        else yield* println(`You guessed wrong, ${name}! The number was: ${secret}`)
+        if (checkAnswer(secret, guess)) yield* print(`You guessed right, ${name}!`)
+        else yield* print(`You guessed wrong, ${name}! The number was: ${secret}`)
     }
 })
 
@@ -56,7 +65,7 @@ const play = co(function*(name: string, min: number, max: number) {
 // Note that we keep asking until the user gives an answer we recognize
 const checkContinue = co(function*(name: string) {
     while (true) {
-        const answer = yield* ask(`Do you want to continue, ${name}? (y or n) `)
+        const answer = yield* askln(`Do you want to continue, ${name}? (y or n) `)
 
         switch (answer.toLowerCase()) {
             case 'y':
@@ -71,7 +80,7 @@ const checkContinue = co(function*(name: string) {
 const main = co(function*() {
     yield* init()
     const name = yield* ask('What is your name?')
-    yield* println(`Hello, ${name} welcome to the game!`)
+    yield* delayedPrint(`Hello, ${name} welcome to the game!`)
 
     const { min, max } = yield* get<GameConfig>()
 
@@ -79,7 +88,7 @@ const main = co(function*() {
         yield* play(name, min, max)
     } while (yield* checkContinue(name))
 
-    yield* println(`Thanks for playing, ${name}.`)
+    yield* print(`Thanks for playing, ${name}.`)
 })
 
 // -------------------------------------------------------------------
@@ -88,7 +97,7 @@ const main = co(function*() {
 // of all capabilities have been provided.
 const capabilities = {
     min: 1,
-    max: 5,
+    max: 100,
 
     init: (): Resume<void> =>
         resumeNow(
@@ -108,9 +117,26 @@ const capabilities = {
         resumeNow(
             (() => {
                 const display = document.getElementById('print-id') as HTMLDivElement
-                display.innerHTML = s
+                display.innerHTML = `${s}<br>`
             })(),
         ),
+
+    println: (s: string): Resume<void> =>
+        resumeNow(
+            (() => {
+                const display = document.getElementById('print-id') as HTMLDivElement
+                display.insertAdjacentHTML('beforeend', `${s}<br>`)
+            })(),
+        ),
+
+    delayedPrint: (s: string): Resume<void> =>
+        resumeLater(k => {
+            const display = document.getElementById('print-id') as HTMLDivElement
+            display.innerHTML = `${s}<br>`
+            const handle = setTimeout(() => k(), 1500)
+
+            return () => clearTimeout(handle)
+        }),
 
     read: (): Resume<string> =>
         resumeLater(k => {
