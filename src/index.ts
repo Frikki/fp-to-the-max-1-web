@@ -1,5 +1,7 @@
 import { co, get, unsafeRun, Resume, resumeNow, resumeLater, use, op } from 'fx-ts'
 
+import './assets/css/main.css'
+
 // -------------------------------------------------------------------
 // The number guessing game example from
 // https://www.youtube.com/watch?v=sxudIMiOo68
