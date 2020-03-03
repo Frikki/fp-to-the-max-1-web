@@ -104,15 +104,20 @@ const capabilities = {
     init: (): Resume<void> =>
         resumeNow(
             (() => {
+                document.body.className = 'flex flex-col justify-center bg-gray-400 h-screen'
+                const gameBox = document.createElement('div')
+                gameBox.className = 'w-2/5 mx-auto flex flex-col p-6 bg-white rounded-lg shadow-xl'
                 const textArea = document.createElement('div')
                 textArea.id = 'print-id'
-                textArea.className = 'gan-print'
-                document.body.appendChild(textArea)
+                textArea.className = 'text-lg text-gray-900 leading-tight h-12'
+                gameBox.appendChild(textArea)
                 const input = document.createElement('input')
                 input.id = 'input-id'
-                input.className = 'gan-input'
+                input.className =
+                    'mt-6 bg-gray-200 focus:bg-white border-transparent focus:border-blue-400 text-gray-900 appearance-none py-3 px-4 focus:outline-none border rounded'
                 input.disabled = true
-                document.body.appendChild(input)
+                gameBox.appendChild(input)
+                document.body.appendChild(gameBox)
             })(),
         ),
 
@@ -136,7 +141,7 @@ const capabilities = {
         resumeLater(k => {
             const display = document.getElementById('print-id') as HTMLDivElement
             display.innerHTML = `${s}<br>`
-            const handle = setTimeout(() => k(), 1500)
+            const handle = setTimeout(() => k(), 2000)
 
             return () => clearTimeout(handle)
         }),
