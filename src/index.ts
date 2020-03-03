@@ -97,7 +97,7 @@ const main = co(function*() {
 // of all capabilities have been provided.
 const capabilities = {
     min: 1,
-    max: 100,
+    max: 5,
 
     init: (): Resume<void> =>
         resumeNow(
@@ -109,6 +109,7 @@ const capabilities = {
                 const input = document.createElement('input')
                 input.id = 'input-id'
                 input.className = 'gan-input'
+                input.disabled = true
                 document.body.appendChild(input)
             })(),
         ),
@@ -141,12 +142,16 @@ const capabilities = {
     read: (): Resume<string> =>
         resumeLater(k => {
             const input = document.getElementById('input-id') as HTMLInputElement
+            input.disabled = false
             input.focus()
             input.value = ''
             input.addEventListener('keyup', function handleKeyUp(event: KeyboardEvent) {
                 if (event.key === 'Enter') {
+                    const value = (event.target as HTMLInputElement).value
                     input.removeEventListener('keyup', handleKeyUp)
-                    return k((event.target as HTMLInputElement).value)
+                    input.value = ''
+                    input.disabled = true
+                    return k(value)
                 }
             })
             return () => {}
