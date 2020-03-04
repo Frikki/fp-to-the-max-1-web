@@ -18,8 +18,13 @@ const print = (s: string) => op<Print>(c => c.print(s))
 type Println = { println(s: string): Resume<void> }
 const println = (s: string) => op<Println>(c => c.println(s))
 
-type DelayedPrint = { delayedPrint(s: string): Resume<void> }
-const delayedPrint = (s: string) => op<DelayedPrint>(c => c.delayedPrint(s))
+type Delay = { delay(ms: number): Resume<void> }
+const delay = (ms: number) => op<Delay>(c => c.delay(ms))
+
+const delayedPrint = co(function*(s: string) {
+    yield* print(s)
+    yield* delay(2000)
+})
 
 type Read = { read(): Resume<string> }
 const read = op<Read>(c => c.read())
@@ -137,12 +142,9 @@ const capabilities = {
             })(),
         ),
 
-    delayedPrint: (s: string): Resume<void> =>
+    delay: (ms: number): Resume<void> =>
         resumeLater(k => {
-            const display = document.getElementById('print-id') as HTMLDivElement
-            display.innerHTML = `${s}<br>`
-            const handle = setTimeout(() => k(), 2000)
-
+            const handle = setTimeout(k, ms)
             return () => clearTimeout(handle)
         }),
 
