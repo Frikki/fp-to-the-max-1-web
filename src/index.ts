@@ -9,9 +9,6 @@ import './assets/css/main.css'
 // -------------------------------------------------------------------
 // Capabilities the game will need
 
-type Init = { init(): Resume<void> }
-const init = () => op<Init>(c => c.init())
-
 type Print = { print(s: string): Resume<void> }
 const print = (s: string) => op<Print>(c => c.print(s))
 
@@ -85,7 +82,6 @@ const checkContinue = co(function*(name: string) {
 
 // Main game loop. Play round after round until the user chooses to quit
 const main = co(function*() {
-    yield* init()
     const name = yield* ask('What is your name?')
     yield* delayedPrint(`Hello, ${name} welcome to the game!`)
 
@@ -105,26 +101,6 @@ const main = co(function*() {
 const capabilities = {
     min: 1,
     max: 5,
-
-    init: (): Resume<void> =>
-        resumeNow(
-            (() => {
-                document.body.className = 'flex flex-col justify-center bg-gray-400 h-screen'
-                const gameBox = document.createElement('div')
-                gameBox.className = 'w-2/5 mx-auto flex flex-col p-6 bg-white rounded-lg shadow-xl'
-                const textArea = document.createElement('div')
-                textArea.id = 'print-id'
-                textArea.className = 'text-lg text-gray-900 leading-tight h-12'
-                gameBox.appendChild(textArea)
-                const input = document.createElement('input')
-                input.id = 'input-id'
-                input.className =
-                    'mt-6 bg-gray-200 focus:bg-white border-transparent focus:border-blue-400 text-gray-900 appearance-none py-3 px-4 focus:outline-none border rounded'
-                input.disabled = true
-                gameBox.appendChild(input)
-                document.body.appendChild(gameBox)
-            })(),
-        ),
 
     print: (s: string): Resume<void> =>
         resumeNow(
@@ -170,4 +146,23 @@ const capabilities = {
         resumeNow(Math.floor(min + Math.random() * (max - min))),
 }
 
-unsafeRun(use(main(), capabilities))
+const init = (document: Document) => {
+    document.body.className = 'flex flex-col justify-center bg-gray-400 h-screen'
+    const gameBox = document.createElement('div')
+    gameBox.className = 'w-2/5 mx-auto flex flex-col p-6 bg-white rounded-lg shadow-xl'
+    const textArea = document.createElement('div')
+    textArea.id = 'print-id'
+    textArea.className = 'text-lg text-gray-900 leading-tight h-12'
+    gameBox.appendChild(textArea)
+    const input = document.createElement('input')
+    input.id = 'input-id'
+    input.className =
+        'mt-6 bg-gray-200 focus:bg-white border-transparent focus:border-blue-400 text-gray-900 appearance-none py-3 px-4 focus:outline-none border rounded'
+    input.disabled = true
+    gameBox.appendChild(input)
+    document.body.appendChild(gameBox)
+
+    return capabilities
+}
+
+unsafeRun(use(main(), init(document)))
